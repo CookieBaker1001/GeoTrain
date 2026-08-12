@@ -65,7 +65,7 @@ fun HomeScreen (
                 ) {
                     Button(
                         onClick = {
-                            //NavigationController.navigate("GameScreen")
+                            NavigationController.navigate("GameScreen")
                         }
                     ) {
                         Text(text = "Start game")

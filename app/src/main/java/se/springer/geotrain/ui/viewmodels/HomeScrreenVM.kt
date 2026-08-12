@@ -16,29 +16,5 @@ class HomeScreenVM (
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val _running = MutableStateFlow(false)
-    val running: StateFlow<Boolean> = _running
 
-    private var loopJob: Job? = null
-
-    var _startTime: Long = 0L
-
-    fun startGame() {
-        _running.value = true;
-        _startTime = System.currentTimeMillis();
-        loopJob = viewModelScope.launch {
-            while (isActive) {
-                delay(1000)
-                Log.d("Logger", "Job is running!")
-            }
-        }
-    }
-
-    fun stopGame() {
-        loopJob?.cancel()
-        loopJob = null
-        _running.value = false;
-        Log.d("Logger", "Time taken: " + (System.currentTimeMillis() - _startTime) + " ms");
-        _startTime = 0L;
-    }
 }
