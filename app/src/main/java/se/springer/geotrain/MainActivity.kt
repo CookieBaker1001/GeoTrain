@@ -19,8 +19,11 @@ import se.springer.geotrain.ui.theme.GeoTrainTheme
 import se.springer.geotrain.ui.viewmodels.HomeScreenVMFactory
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import se.springer.geotrain.ui.screens.EndGameScreen
 import se.springer.geotrain.ui.screens.GameScreen
 import se.springer.geotrain.ui.screens.SettingsScreen
+import se.springer.geotrain.ui.viewmodels.EndGameScreenVM
+import se.springer.geotrain.ui.viewmodels.EndGameScreenVMFactory
 import se.springer.geotrain.ui.viewmodels.GameScreenVM
 import se.springer.geotrain.ui.viewmodels.GameScreenVMFactory
 import se.springer.geotrain.ui.viewmodels.HomeScreenVM
@@ -36,7 +39,8 @@ class MainActivity : ComponentActivity() {
                 MyApp(
                     viewModel(factory = HomeScreenVMFactory(application)),
                     viewModel(factory = SettingsScreenVMFactory(application)),
-                    viewModel(factory = GameScreenVMFactory(application))
+                    viewModel(factory = GameScreenVMFactory(application)),
+                    viewModel(factory = EndGameScreenVMFactory(application))
                 )
             }
         }
@@ -47,7 +51,8 @@ class MainActivity : ComponentActivity() {
 fun MyApp(
     homeScreenVM: HomeScreenVM,
     settingsScreenVM: SettingsScreenVM,
-    gameScreenVM: GameScreenVM
+    gameScreenVM: GameScreenVM,
+    endGameScreenVM: EndGameScreenVM
 ) {
     val navController = rememberNavController()
     NavigationController.setNavController(navController)
@@ -61,6 +66,9 @@ fun MyApp(
         }
         composable("GameScreen") {
             GameScreen(gameScreenVM = gameScreenVM)
+        }
+        composable("EndGameScreen") {
+            EndGameScreen(endGameScreenVM = endGameScreenVM)
         }
     }
 }

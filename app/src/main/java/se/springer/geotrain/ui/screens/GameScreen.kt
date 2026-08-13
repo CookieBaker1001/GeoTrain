@@ -1,10 +1,13 @@
 package se.springer.geotrain.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -62,7 +66,7 @@ fun GameScreen (
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Geo Trainer",
+                    text = "Guess the flag!",
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
@@ -80,6 +84,13 @@ fun GameScreen (
                 ) {
                     var text by remember { mutableStateOf("") }
                     val country by gameScreenVM.currentCountry.collectAsState();
+                    val current by gameScreenVM.current.collectAsState();
+                    val score by gameScreenVM.score.collectAsState();
+                    val max by gameScreenVM.max.collectAsState();
+
+                    Text(modifier = Modifier
+                        .weight(2f, true),
+                        text = "${current+1} / ${max}")
 
                     if (country.name != "") {
                         Icon(
@@ -87,32 +98,53 @@ fun GameScreen (
                             contentDescription = null,
                             tint = Color.Unspecified,
                             modifier = Modifier
-                                .size(32.dp)
+                                .fillMaxSize()
                                 .padding(4.dp)
+                                .weight(4f, true),
                         )
                     }
 
-                    //Image(painter = painterResource(id = country.flagRes))
+                    Spacer(modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp))
 
                     TextField(
                         modifier = Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.surface,
                                 shape = MaterialTheme.shapes.medium
-                            ),
+                            )
+                            .weight(1f, true),
                         value = text,
                         onValueChange = { text = it },
                         label = { Text(text = "Name") }
                     )
+
+                    Spacer(modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp))
+
                     Button(
                         onClick = {
+                            Log.d("Logger", "Current: ${current}, Score is: ${score} / ${max}");
                             gameScreenVM.guess(text)
+                            if (current >= (max-1)) {
+                                NavigationController.navigate("EndGameScreen");
+                            }
                             text = ""
-                        }
+                        },
+                        modifier = Modifier
+                            .weight(1f, true),
                     ) {
                         Text(text = "Check")
                     }
                 }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f, true),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp))
             }
         }
     }

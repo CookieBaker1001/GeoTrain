@@ -25,6 +25,9 @@ class GameScreenVM (
 
     var _startTime: Long = 0L
 
+    val max: StateFlow<Int> = GeoTrainLogic.maxCount
+    val score: StateFlow<Int> = GeoTrainLogic.score
+    val current: StateFlow<Int> = GeoTrainLogic.index
     fun startGame() {
         Log.d("Logger", "Started game!");
         _running.value = true;
