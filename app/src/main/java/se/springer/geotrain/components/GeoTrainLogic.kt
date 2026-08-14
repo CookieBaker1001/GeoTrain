@@ -7,7 +7,7 @@ object GeoTrainLogic {
     private var _startTime: Long = 0L;
     private val _countryList = MutableStateFlow<List<Country>>(emptyList())
     val countryList: StateFlow<List<Country>> get() = _countryList
-    private val _currentCountry = MutableStateFlow(Country("", WorldPart.ALL, "", countries[0].flagRes))
+    private val _currentCountry = MutableStateFlow(Country(listOf(""), WorldPart.ALL, "", countries[0].flagRes))
     val currentCountry: StateFlow<Country> get() = _currentCountry
 
     private val _maxCount = MutableStateFlow<Int>(0);
@@ -26,7 +26,7 @@ object GeoTrainLogic {
     val lessonMode: StateFlow<WorldPart> get() = _lessonMode;
 
     fun setMode(mode: Int) {
-        _lessonMode.value = WorldPart.values()[mode];
+        _lessonMode.value = WorldPart.entries.toTypedArray()[mode];
     }
 
     fun startGame(startTime: Long) {
@@ -69,10 +69,14 @@ object GeoTrainLogic {
     }
 
     fun guess(guess: String) {
-        if (guess == _currentCountry.value.name.lowercase()) {
-            _score.value++
+        for (name in _currentCountry.value.name) {
+            if (guess.equals(name, ignoreCase = true)) {
+                _score.value++
+                break
+            }
         }
-        getNext()
+
+        if (_index.value < _maxCount.value) getNext()
     }
 
     fun getNext() {

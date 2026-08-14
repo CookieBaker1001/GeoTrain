@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,9 +21,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import se.springer.geotrain.components.GeoTrainLogic
 import se.springer.geotrain.components.NavigationController
+import se.springer.geotrain.ui.theme.CustomButtonColor
 import se.springer.geotrain.ui.theme.CustomGradientBackground
 import se.springer.geotrain.ui.viewmodels.EndGameScreenVM
 
@@ -101,7 +104,8 @@ fun EndGameScreen (
                 Button(
                     onClick = {
                         NavigationController.navigate("HomeScreen")
-                    }
+                    },
+                    colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
                 ) {
                     Text(text = "Home")
                 }

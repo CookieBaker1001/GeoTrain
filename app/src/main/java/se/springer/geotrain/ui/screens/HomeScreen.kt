@@ -12,13 +12,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import se.springer.geotrain.components.NavigationController
+import se.springer.geotrain.ui.theme.CustomButtonColor
 import se.springer.geotrain.ui.theme.CustomGradientBackground
 import se.springer.geotrain.ui.viewmodels.HomeScreenVM
 
@@ -57,23 +62,27 @@ fun HomeScreen (
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val worldPart by homeScreenVM.worldPart.collectAsState()
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
+                    Text(text = "World part: $worldPart")
                     Button(
                         onClick = {
                             NavigationController.navigate("GameScreen")
-                        }
+                        },
+                        colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
                     ) {
                         Text(text = "Start game")
                     }
                     Button(
                         onClick = {
                             NavigationController.navigate("SettingsScreen")
-                        }
+                        },
+                        colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
                     ) {
-                        Text(text = "Settings")
+                        Text(text = "Options")
                     }
                 }
             }
@@ -81,17 +90,15 @@ fun HomeScreen (
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(2f, true),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .weight(1f, true),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
-                        .height(48.dp),
+                        .padding(8.dp),
                     text = "KnaKoBraK AB - CR - TM",
-                    //style = MaterialTheme.typography.headlineMedium,
                 )
             }
         }
