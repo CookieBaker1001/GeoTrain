@@ -20,10 +20,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import se.springer.geotrain.components.GeoTrainLogic
 import se.springer.geotrain.components.NavigationController
+import se.springer.geotrain.ui.theme.CustomGradientBackground
 import se.springer.geotrain.ui.viewmodels.EndGameScreenVM
 
 @Composable
@@ -36,7 +36,7 @@ fun EndGameScreen (
 
     Row(
         modifier = Modifier.
-        background(color = Color(0.5f, 0.5f, 0.5f))
+        background(CustomGradientBackground)
     ) {
         Column(
             modifier = Modifier

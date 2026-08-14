@@ -32,7 +32,7 @@ class GameScreenVM (
         Log.d("Logger", "Started game!");
         _running.value = true;
         _startTime = System.currentTimeMillis();
-        GeoTrainLogic.startGame(_startTime, countries.size-2);
+        GeoTrainLogic.startGame(_startTime);
 //        loopJob = viewModelScope.launch {
 //            while (isActive) {
 //                delay(1000)
