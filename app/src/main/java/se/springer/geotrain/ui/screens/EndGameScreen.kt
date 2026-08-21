@@ -44,7 +44,8 @@ fun EndGameScreen (
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(WindowInsets.systemBars.asPaddingValues()),
+                .padding(WindowInsets.systemBars.asPaddingValues())
+                .padding(horizontal = 8.dp, vertical = 4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(

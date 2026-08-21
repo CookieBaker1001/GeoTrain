@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import se.springer.geotrain.components.NavigationController
 import se.springer.geotrain.ui.theme.CustomButtonColor
@@ -38,14 +39,21 @@ fun HomeScreen (
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(WindowInsets.systemBars.asPaddingValues()),
+                .padding(WindowInsets.systemBars.asPaddingValues())
+                .padding(horizontal = 8.dp, vertical = 4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Header part
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(4f, true))
+            {}
 
+            // Title part
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(2f, true),
+                    .weight(4f, true),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -55,42 +63,67 @@ fun HomeScreen (
                 )
             }
 
+            // Description
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(5f, true),
+                    .weight(8f, true),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    text = "Practice your geography skills. Pick a world part and try to identify as many countries from their flags as possible.",
+                    textAlign = TextAlign.Center,
+                )
+            }
+
+            // Button element
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(8f, true),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 val worldPart by homeScreenVM.worldPart.collectAsState()
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
+                Button(
+                    onClick = {
+                        NavigationController.navigate("SettingsScreen")
+                    },
+                    colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
                 ) {
-                    Text(text = "World part: $worldPart")
-                    Button(
-                        onClick = {
-                            NavigationController.navigate("GameScreen")
-                        },
-                        colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
-                    ) {
-                        Text(text = "Start game")
-                    }
-                    Button(
-                        onClick = {
-                            NavigationController.navigate("SettingsScreen")
-                        },
-                        colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
-                    ) {
-                        Text(text = "Options")
-                    }
+                    Text(text = "Play")
                 }
+//                Column(
+//                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    verticalArrangement = Arrangement.SpaceEvenly
+//                ) {
+//                    Text(text = "World part: $worldPart")
+//                    Button(
+//                        onClick = {
+//                            NavigationController.navigate("SettingsScreen")
+//                        },
+//                        colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
+//                    ) {
+//                        Text(text = "Play")
+//                    }
+//                }
             }
 
+            // Spacer
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(6f, true))
+            {}
+
+            // Footer part
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f, true),
+                    .weight(2f, true),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -99,6 +132,7 @@ fun HomeScreen (
                         .fillMaxWidth()
                         .padding(8.dp),
                     text = "KnaKoBraK AB - CR - TM",
+                    textAlign = TextAlign.Center,
                 )
             }
         }

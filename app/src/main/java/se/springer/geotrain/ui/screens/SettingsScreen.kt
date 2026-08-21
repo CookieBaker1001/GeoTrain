@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
@@ -26,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import se.springer.geotrain.components.NavigationController
 import se.springer.geotrain.components.WorldPart
@@ -45,99 +47,151 @@ fun SettingsScreen (
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(WindowInsets.systemBars.asPaddingValues()),
+                .padding(WindowInsets.systemBars.asPaddingValues())
+                .padding(horizontal = 8.dp, vertical = 4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Header part
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .weight(2f, true),
+                .weight(4f, true),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(
+                    onClick = { NavigationController.navigate("HomeScreen")},
+                    colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
+                ) {
+                    Text(text = "<")
+                }
+            }
+
+            // Title part
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(4f, true),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Settings Screen",
+                    text = "Game settings",
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
 
+            // Description
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(8f, true),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    text = "Pick a world part from which flags will be drawn.",
+                    textAlign = TextAlign.Center,
+                )
+            }
+
+            // Dropdown element
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .weight(5f, true),
+                .weight(4f, true),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 var expanded by remember { mutableStateOf(false) }
                 var selectedWordPart by remember { mutableStateOf(settingsScreenVM.mode.value) }
 
-                Text(text = "World part: $selectedWordPart")
-
-                ExposedDropdownMenuBox(
-                    expanded = expanded,
-                    onExpandedChange = { expanded = !expanded }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-
-                    Button(
-                        onClick = { expanded = true },
-                        colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-    //                        Image(
-    //                            painter = painterResource(id = selected.flagRes),
-    //                            contentDescription = selected.name,
-    //                            modifier = Modifier.size(24.dp)
-    //                        )
-                            Text(text = "Choose")
-    //                        Spacer(modifier = Modifier.width(8.dp))
-    //                        Text(selected.code.uppercase())
-                        }
-                    }
-
-    //                TextField(
-    //                    value = selectedWordPart.toString(),
-    //                    onValueChange = {},
-    //                    readOnly = true,
-    //                    label = { Text(text = "World part") },
-    //                    trailingIcon = {
-    //                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-    //                    },
-    //                    modifier = Modifier
-    //                        .fillMaxWidth(),
-    //                )
-
-                    ExposedDropdownMenu(
+                    ExposedDropdownMenuBox(
                         expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier
-                            .width(192.dp)
+                        onExpandedChange = { expanded = !expanded }
                     ) {
-                        WorldPart.entries.forEach { part ->
-                            DropdownMenuItem(
-                                text = { Text(part.name) },
-                                onClick = {
-                                    selectedWordPart = part
-                                    settingsScreenVM.setMode(part.ordinal)
-                                    expanded = false
-                                }
-                            )
+                        Button(
+                            onClick = { expanded = true },
+                            colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(text = "Choose")
+                            }
+                        }
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier
+                                .width(192.dp)
+                        ) {
+                            WorldPart.entries.forEach { part ->
+                                DropdownMenuItem(
+                                    modifier = Modifier
+                                        .height(40.dp),
+                                    text = { Text(part.name) },
+                                    onClick = {
+                                        selectedWordPart = part
+                                        settingsScreenVM.setMode(part.ordinal)
+                                        expanded = false
+                                    }
+                                )
+                            }
                         }
                     }
+                    Text(text = "World part: $selectedWordPart")
                 }
             }
 
+            // Spacer
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .weight(5f, true),
+                .weight(4f, true))
+            {}
+
+            // Start button
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(4f, true),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
                     onClick = {
-                        NavigationController.navigate("HomeScreen")
+                        NavigationController.navigate("GameScreen")
                     },
                     colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
                 ) {
-                    Text(text = "Home")
+                    Text(text = "Start game!")
                 }
+            }
+
+            // Spacer
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(4f, true))
+            {}
+
+            // Footer part
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2f, true),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            )
+            {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    text = "KnaKoBraK AB - CR - TM",
+                    textAlign = TextAlign.Center,
+                )
             }
         }
     }

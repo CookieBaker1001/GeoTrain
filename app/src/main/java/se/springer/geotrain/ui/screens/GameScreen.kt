@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import se.springer.geotrain.Greeting
@@ -55,14 +56,16 @@ fun GameScreen (
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(WindowInsets.systemBars.asPaddingValues()),
+                .padding(WindowInsets.systemBars.asPaddingValues())
+                .padding(horizontal = 8.dp, vertical = 4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Header part
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f, true),
-                horizontalArrangement = Arrangement.Center,
+                    .weight(4f, true),
+                horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
@@ -73,12 +76,17 @@ fun GameScreen (
                 }
             }
 
-            //Spacer(modifier = Modifier.padding(8.dp).weight(3f, true))
+            // Spacer
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(6f, true))
+            {}
 
+            // Title part
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(2f, true),
+                    .weight(4f, true),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -86,88 +94,118 @@ fun GameScreen (
                 Text(
                     modifier = Modifier.padding(horizontal = 24.dp),
                     text = phrase,
+                    textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.headlineMedium,
                 )
             }
 
+            // Spacer
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(2f, true))
+            {}
+
+            var text by remember { mutableStateOf("") }
+            val country by gameScreenVM.currentCountry.collectAsState();
+            val current by gameScreenVM.current.collectAsState();
+            val score by gameScreenVM.score.collectAsState();
+            val max by gameScreenVM.max.collectAsState();
+
+            // Progression part
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(5f, true),
+                    .weight(2f, true),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    var text by remember { mutableStateOf("") }
-                    val country by gameScreenVM.currentCountry.collectAsState();
-                    val current by gameScreenVM.current.collectAsState();
-                    val score by gameScreenVM.score.collectAsState();
-                    val max by gameScreenVM.max.collectAsState();
-
-                    Text(modifier = Modifier
+                Text(
+                    modifier = Modifier
                         .weight(2f, true),
-                        text = "Flag ${current+1} out of ${max}")
+                    text = "Flag ${current+1} out of ${max}",
+                    textAlign = TextAlign.Center
+                )
+            }
 
-                    if (country.name[0] != "") {
-                        Icon(
-                            painter = painterResource(id = country.flagRes),
-                            contentDescription = null,
-                            tint = Color.Unspecified,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(4.dp)
-                                .weight(4f, true),
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp))
-
-                    Button(
-                        onClick = {
-                            Log.d("Logger", "Current: ${current}, Score is: ${score} / ${max}");
-                            gameScreenVM.guess(text)
-                            if (current >= (max - 1)) {
-                                NavigationController.navigate("EndGameScreen");
-                            }
-                            text = ""
-                        },
-                        colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red
-                        ),
+            // Icon part
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(6f, true),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (country.name[0] != "") {
+                    Icon(
+                        painter = painterResource(id = country.flagRes),
+                        contentDescription = null,
+                        tint = Color.Unspecified,
                         modifier = Modifier
-                            .weight(1f, true),
-                    ) {
-                        Text(text = "Check")
-                    }
-
-                    Spacer(modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp))
-
-                    TextField(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.surface,
-                                shape = MaterialTheme.shapes.medium
-                            )
-                            .weight(1f, true),
-                        value = text,
-                        onValueChange = { text = it },
-                        label = { Text(text = "Name") }
+                            .fillMaxSize()
+                            .padding(4.dp)
+                            .weight(4f, true),
                     )
                 }
             }
 
-            //Spacer(modifier = Modifier.padding(vertical = 48.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f, true),
+            // Check button
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(2f, true),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Spacer(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp).weight(3f, true))
+                Button(
+                    onClick = {
+                        Log.d("Logger", "Current: ${current}, Score is: ${score} / ${max}");
+                        gameScreenVM.guess(text)
+                        if (current >= (max - 1)) {
+                            NavigationController.navigate("EndGameScreen");
+                        }
+                        text = ""
+                    },
+                    colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red
+                    )
+                ) {
+                    Text(text = "Check")
+                }
+            }
+
+            // Input field
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(4f, true),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = MaterialTheme.shapes.medium
+                        )
+                        .weight(1f, true),
+                    value = text,
+                    onValueChange = { text = it },
+                    label = { Text(text = "Name") }
+                )
+            }
+
+            // Footer part
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2f, true),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            )
+            {
+//                Text(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(8.dp),
+//                    text = "KnaKoBraK AB - CR - TM",
+//                    textAlign = TextAlign.Center,
+//                )
             }
         }
     }
