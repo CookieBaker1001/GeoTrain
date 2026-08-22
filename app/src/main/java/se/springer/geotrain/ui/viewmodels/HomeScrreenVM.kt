@@ -10,5 +10,5 @@ class HomeScreenVM (
     application: Application
 ) : AndroidViewModel(application) {
 
-    val worldPart: StateFlow<WorldPart> = GeoTrainLogic.lessonMode
+    val worldPart: StateFlow<WorldPart> = GeoTrainLogic.worldPart
 }

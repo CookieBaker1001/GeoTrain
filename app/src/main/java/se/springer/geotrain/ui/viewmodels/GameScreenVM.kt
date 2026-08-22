@@ -12,6 +12,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import se.springer.geotrain.components.Country
 import se.springer.geotrain.components.GeoTrainLogic
+import se.springer.geotrain.components.Landscape
+import se.springer.geotrain.components.QuizItem
 import se.springer.geotrain.components.countries
 import kotlin.random.Random
 
@@ -22,7 +24,10 @@ class GameScreenVM (
     val running: StateFlow<Boolean> = _running
 
     //var currentCountry = GeoTrainLogic.currentCountry
-    val currentCountry: StateFlow<Country> = GeoTrainLogic.currentCountry
+//    val currentCountry: StateFlow<Country> = GeoTrainLogic.currentCountry
+//    val currentLandscape: StateFlow<Landscape> = GeoTrainLogic.currentLandscape
+    val currentItem: StateFlow<QuizItem?> = GeoTrainLogic.currentItem
+//    val currentGameMode: StateFlow<Int> = GeoTrainLogic.gameMode
 
     var _startTime: Long = 0L
 

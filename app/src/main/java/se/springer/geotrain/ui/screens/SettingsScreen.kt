@@ -136,7 +136,7 @@ fun SettingsScreen (
                                     text = { Text(part.name) },
                                     onClick = {
                                         selectedWordPart = part
-                                        settingsScreenVM.setMode(part.ordinal)
+                                        settingsScreenVM.setWorldPart(part.ordinal)
                                         expanded = false
                                     }
                                 )
@@ -147,21 +147,18 @@ fun SettingsScreen (
                 }
             }
 
-            // Spacer
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .weight(4f, true))
-            {}
 
             // Start button
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .weight(4f, true),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(4f, true),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
                     onClick = {
+                        settingsScreenVM.setGameMode(0)
                         NavigationController.navigate("GameScreen")
                     },
                     colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
@@ -173,7 +170,32 @@ fun SettingsScreen (
             // Spacer
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .weight(4f, true))
+                .weight(1f, true))
+            {}
+
+            // Landscape game button
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2f, true),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(
+                    onClick = {
+                        settingsScreenVM.setGameMode(1)
+                        NavigationController.navigate("GameScreen")
+                    },
+                    colors = ButtonColors(CustomButtonColor, Color.White, Color.Red, Color.Red)
+                ) {
+                    Text(text = "Landskpapsspelet")
+                }
+            }
+
+            // Spacer
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .weight(5f, true))
             {}
 
             // Footer part

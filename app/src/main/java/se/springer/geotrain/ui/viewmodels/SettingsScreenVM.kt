@@ -10,9 +10,13 @@ class SettingsScreenVM (
     application: Application
 ) : AndroidViewModel(application) {
 
-    val mode: StateFlow<WorldPart> = GeoTrainLogic.lessonMode
+    val mode: StateFlow<WorldPart> = GeoTrainLogic.worldPart
 
-    fun setMode(mode: Int) {
-        GeoTrainLogic.setMode(mode);
+    fun setWorldPart(mode: Int) {
+        GeoTrainLogic.setWorldPart(mode);
+    }
+
+    fun setGameMode(mode: Int) {
+        GeoTrainLogic.setGameMode(mode)
     }
 }

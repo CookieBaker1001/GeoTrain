@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import se.springer.geotrain.Greeting
+import se.springer.geotrain.components.GeoTrainLogic
 import se.springer.geotrain.components.NavigationController
 import se.springer.geotrain.ui.theme.CustomButtonColor
 import se.springer.geotrain.ui.theme.CustomGradientBackground
@@ -106,7 +107,7 @@ fun GameScreen (
             {}
 
             var text by remember { mutableStateOf("") }
-            val country by gameScreenVM.currentCountry.collectAsState();
+            val currentItem by gameScreenVM.currentItem.collectAsState();
             val current by gameScreenVM.current.collectAsState();
             val score by gameScreenVM.score.collectAsState();
             val max by gameScreenVM.max.collectAsState();
@@ -134,9 +135,9 @@ fun GameScreen (
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (country.name[0] != "") {
+                currentItem?.let {
                     Icon(
-                        painter = painterResource(id = country.flagRes),
+                        painter = painterResource(id = it.flagRes),
                         contentDescription = null,
                         tint = Color.Unspecified,
                         modifier = Modifier

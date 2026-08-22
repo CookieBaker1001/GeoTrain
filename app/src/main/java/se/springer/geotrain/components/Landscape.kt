@@ -1,10 +1,6 @@
 package se.springer.geotrain.components
 
-import java.util.Locale
-
-data class Country(
+data class Landscape (
     override val names: List<String>,
-    val part: WorldPart,
-    val code: String,
     override val flagRes: Int
 ) : QuizItem
